@@ -37,86 +37,86 @@ Iris dataset.
 10. **Stop.**
 
 ## Program
-import numpy as np
-import matplotlib.pyplot as plt
-
-from sklearn.datasets import load_iris
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score
-
-# Load Iris dataset
-iris = load_iris()
-X = iris.data[:, :2]
-y = iris.target
-
-# Split dataset
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42, stratify=y
-)
-
-# Standardize data
-scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
-
-# Linear SVM
-linear_model = SVC(kernel='linear')
-linear_model.fit(X_train, y_train)
-
-linear_pred = linear_model.predict(X_test)
-linear_accuracy = accuracy_score(y_test, linear_pred)
-
-# RBF SVM
-rbf_model = SVC(kernel='rbf')
-rbf_model.fit(X_train, y_train)
-
-rbf_pred = rbf_model.predict(X_test)
-rbf_accuracy = accuracy_score(y_test, rbf_pred)
-
-# Display accuracy
-print("Linear SVM Accuracy:", linear_accuracy)
-print("RBF SVM Accuracy:", rbf_accuracy)
-
-# Decision boundary visualization
-x_min, x_max = X_train[:, 0].min()-0.5, X_train[:, 0].max()+0.5
-y_min, y_max = X_train[:, 1].min()-0.5, X_train[:, 1].max()+0.5
-
-xx, yy = np.meshgrid(
-    np.linspace(x_min, x_max, 400),
-    np.linspace(y_min, y_max, 400)
-)
-
-for name, model in [
-    ("Linear Kernel", linear_model),
-    ("RBF Kernel", rbf_model)
-]:
-    Z = model.predict(
-        np.c_[xx.ravel(), yy.ravel()]
+    import numpy as np
+    import matplotlib.pyplot as plt
+    
+    from sklearn.datasets import load_iris
+    from sklearn.model_selection import train_test_split
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.svm import SVC
+    from sklearn.metrics import accuracy_score
+    
+    # Load Iris dataset
+    iris = load_iris()
+    X = iris.data[:, :2]
+    y = iris.target
+    
+    # Split dataset
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42, stratify=y
     )
-    Z = Z.reshape(xx.shape)
-
-    plt.figure(figsize=(7, 5))
-    plt.contourf(xx, yy, Z, alpha=0.25)
-    plt.scatter(
-        X_train[:, 0], X_train[:, 1],
-        c=y_train, edgecolors='black'
+    
+    # Standardize data
+    scaler = StandardScaler()
+    X_train = scaler.fit_transform(X_train)
+    X_test = scaler.transform(X_test)
+    
+    # Linear SVM
+    linear_model = SVC(kernel='linear')
+    linear_model.fit(X_train, y_train)
+    
+    linear_pred = linear_model.predict(X_test)
+    linear_accuracy = accuracy_score(y_test, linear_pred)
+    
+    # RBF SVM
+    rbf_model = SVC(kernel='rbf')
+    rbf_model.fit(X_train, y_train)
+    
+    rbf_pred = rbf_model.predict(X_test)
+    rbf_accuracy = accuracy_score(y_test, rbf_pred)
+    
+    # Display accuracy
+    print("Linear SVM Accuracy:", linear_accuracy)
+    print("RBF SVM Accuracy:", rbf_accuracy)
+    
+    # Decision boundary visualization
+    x_min, x_max = X_train[:, 0].min()-0.5, X_train[:, 0].max()+0.5
+    y_min, y_max = X_train[:, 1].min()-0.5, X_train[:, 1].max()+0.5
+    
+    xx, yy = np.meshgrid(
+        np.linspace(x_min, x_max, 400),
+        np.linspace(y_min, y_max, 400)
     )
-
-    plt.title("SVM Decision Boundary - " + name)
-    plt.xlabel("Standardized Sepal Length")
-    plt.ylabel("Standardized Sepal Width")
-    plt.show()
-
+    
+    for name, model in [
+        ("Linear Kernel", linear_model),
+        ("RBF Kernel", rbf_model)
+    ]:
+        Z = model.predict(
+            np.c_[xx.ravel(), yy.ravel()]
+        )
+        Z = Z.reshape(xx.shape)
+    
+        plt.figure(figsize=(7, 5))
+        plt.contourf(xx, yy, Z, alpha=0.25)
+        plt.scatter(
+            X_train[:, 0], X_train[:, 1],
+            c=y_train, edgecolors='black'
+        )
+    
+        plt.title("SVM Decision Boundary - " + name)
+        plt.xlabel("Standardized Sepal Length")
+        plt.ylabel("Standardized Sepal Width")
+        plt.show()
+    
 
 ## output
 
-SVM Classification Accuracy
-
-Linear Kernel: 0.7333 (73.33%)
-
-RBF Kernel: 0.7333 (73.33%)
+    SVM Classification Accuracy
+    
+    Linear Kernel: 0.7333 (73.33%)
+    
+    RBF Kernel: 0.7333 (73.33%)
 
 ## Result
 Thus, the Support Vector Machine (SVM) classification algorithm was successfully implemented using Python. Linear and RBF kernels were trained and tested using the Iris dataset, and their decision boundaries were visualized. Both models achieved 73.33% accuracy
